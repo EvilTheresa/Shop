@@ -5,21 +5,18 @@
 {% endblock %}
 
 {% block content %}
-    <br>
-    <div class="row">
+<h1>My market</h1>
+    <nav>
+        <a href="{% url 'create_product' %}">Add Product</a>
+    </nav>
+    <div class="product-list">
         {% for product in products %}
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card mt-3" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.title }}</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ product.name }}</h6>
-                        <p class="card-text">{{ product.content}}</p>
-                        <a href="{% url 'detail_product' product.pk %}" class="card-link">Детальный просмотр</a>
-                        <a href="{% url 'update_product' product.pk %}" class="card-link">Редактировние</a>
-                        <a href="{% url 'delete_product' product.pk %}" class="card-link">Удаление</a>
-                    </div>
-                </div>
-            </div>
+        <div class="product-item">
+            <img src="{{ product.image }}" height="100" width="100" alt="{{ product.name }}">
+            <h2>{{ product.name }}</h2>
+            <p>Category: {{ product.category.name }}</p>
+            <p>Price: ${{ product.price }}</p>
+            <a href="{% url 'detail_product' product.pk %}">see more >>></a>
+        </div>
         {% endfor %}
-    </div>
 {% endblock %}

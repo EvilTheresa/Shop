@@ -5,43 +5,44 @@ from .models import Product
 
 
 def index(request):
-    products = Product.objects.order_by("category")
+    products = Product.objects.all()
     return render(request, "products.html", context={"products": products})
 
 
 def create_product(request):
-    if request.method == "GET":
-        form = ProductForm()
-        return render(request, "create_product.html", {"form": form})
-    else:
-        form = ProductForm(data=request.POST)
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
         if form.is_valid():
-            product = Product.objects.create(
-                title=request.POST.get("title"),
-                content=request.POST.get("content"),
-                author=request.POST.get("author")
-            )
-            return redirect("product_detail", pk=product.pk)
+            form.save()
+            return redirect('products')
+        else:
+            print(form.errors)
+    else:
+        form = ProductForm()
+    return render(request, 'create_product.html', {'form': form})
 
-        return render(
-            request,
-            "create_product.html",
-            {"form": form}
-        )
+def create_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('products')
+    else:
+        form = CategoryForm()
+    return render(request, 'create_category.html', {'form': form})
 
-
-def detail_product(request, *args, pk, **kwargs):
+def detail_product(request, pk, **kwargs):
     product = get_object_or_404(Product, pk=pk)
-    return render(request, "product_detail.html", context={"product": product})
+    return render(request, 'product_detail.html', {'product': product})
 
 
 def update_product(request, *args, pk, **kwargs):
     if request.method == "GET":
         product = get_object_or_404(Product, pk=pk)
         form = ProductForm(initial={
-            "title": product.title,
-            "author": product.author,
-            "content": product.content,
+            "name": product.name,
+            "price": product.price,
+            "image": product.image,
         })
         return render(
             request, "update_product.html",
@@ -51,9 +52,9 @@ def update_product(request, *args, pk, **kwargs):
         form = ProductForm(data=request.POST)
         if form.is_valid():
             product = get_object_or_404(Product, pk=pk)
-            product.title = request.POST.get("title")
-            product.content = request.POST.get("content")
-            product.author = request.POST.get("author")
+            product.name = request.POST.get("name")
+            product.image = request.POST.get("image")
+            product.price = request.POST.get("price")
             product.save()
             return redirect("detail_product.html", pk=product.pk)
         else:
