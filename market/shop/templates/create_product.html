@@ -5,13 +5,17 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>Add Product</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Add Product</button>
-        </form>
-        <a href="{% url 'products' %}" class="btn btn-secondary">Back to Product List</a>
-    </div>
+    <h1>Create a product</h1>
+{#    <div class="container">#}
+{#        <h1>Add Product</h1>#}
+{#        <form method="post">#}
+{#            {% csrf_token %}#}
+{#            {{ form.as_p }}#}
+{#            <button type="submit" class="btn btn-primary">Add Product</button>#}
+{#        </form>#}
+{#        <a href="{% url 'products' %}" class="btn btn-secondary">Back to Product List</a>#}
+{#    </div>#}
+    <form action="" method="post">
+        {% include 'partial/form_product.html' with button_text='Создать' %}
+    </form>
 {% endblock %}

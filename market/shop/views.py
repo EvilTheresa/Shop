@@ -21,6 +21,7 @@ def create_product(request):
         form = ProductForm()
     return render(request, 'create_product.html', {'form': form})
 
+
 def create_category(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -30,6 +31,7 @@ def create_category(request):
     else:
         form = CategoryForm()
     return render(request, 'create_category.html', {'form': form})
+
 
 def detail_product(request, pk, **kwargs):
     product = get_object_or_404(Product, pk=pk)
@@ -68,7 +70,7 @@ def update_product(request, *args, pk, **kwargs):
 def delete_product(request, *args, pk, **kwargs):
     product = get_object_or_404(Product, pk=pk)
     if request.method == "GET":
-        return render(request, "delete_product.html", context={"product": product})
+        return render(request, "products.html", context={"product": product})
     else:
         product.delete()
         return redirect("products")

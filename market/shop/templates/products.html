@@ -13,10 +13,19 @@
         {% for product in products %}
         <div class="product-item">
             <img src="{{ product.image }}" height="100" width="100" alt="{{ product.name }}">
-            <h2>{{ product.name }}</h2>
+            <a href="{% url 'detail_product' product.pk %}" class="text-decoration-none"><h2>{{ product.name }}</h2></a>
             <p>Category: {{ product.category.name }}</p>
             <p>Price: ${{ product.price }}</p>
-            <a href="{% url 'detail_product' product.pk %}">see more >>></a>
+            <a href="{% url 'update_product' product.pk %}" class="btn">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+{#            <a href="{% url 'delete_product' product.pk %}" class="btn">#}
+{#                <i class="fa-solid fa-trash"></i>#}
+{#            </a>#}
+            <form action="{% url 'delete_product' product.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn"><i class="fa-solid fa-trash"></i></button>
+            </form>
         </div>
         {% endfor %}
 {% endblock %}
