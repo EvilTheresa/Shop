@@ -1,2 +1,25 @@
 {% extends "base.html" %}
-<h1>My market</h1>
+
+{% block title %}
+    <title>Products</title>
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card mt-3" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ product.name }}</h6>
+                        <p class="card-text">{{ product.content}}</p>
+                        <a href="{% url 'detail_product' product.pk %}" class="card-link">Детальный просмотр</a>
+                        <a href="{% url 'update_product' product.pk %}" class="card-link">Редактировние</a>
+                        <a href="{% url 'delete_product' product.pk %}" class="card-link">Удаление</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
