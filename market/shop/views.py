@@ -58,7 +58,7 @@ def update_product(request, *args, pk, **kwargs):
             product.image = request.POST.get("image")
             product.price = request.POST.get("price")
             product.save()
-            return redirect("detail_product.html", pk=product.pk)
+            return redirect("products")
         else:
             return render(
                 request,
@@ -67,10 +67,9 @@ def update_product(request, *args, pk, **kwargs):
             )
 
 
-def delete_product(request, *args, pk, **kwargs):
+def delete_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    if request.method == "GET":
-        return render(request, "products.html", context={"product": product})
-    else:
+    if request.method == 'POST':
         product.delete()
-        return redirect("products")
+        return redirect('products')
+    return render(request, 'delete_product.html', {'product': product})
